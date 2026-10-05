@@ -1,0 +1,27 @@
+# Game Asset Extractor - runtime dependencies
+#
+# Install:
+#   python -m pip install -r requirements.txt
+#
+# Version notes (verified 2026-10 with UnityPy 1.25.x):
+#   - UnityPy declares BREAKING changes in MINOR releases -> pin a floor, not an exact version.
+#   - fmod_toolkit ships native FMOD binaries inside the wheel; if it cannot load, the audio
+#     step degrades to exporting raw .fsb segments instead of crashing.
+#   - texture2ddecoder covers PVRTC/ATC/ETC/ETC2/EAC; astc-encoder-py covers ASTC;
+#     Pillow covers BCn/DXT and uncompressed formats. etcpak is encode-only.
+
+UnityPy>=1.25
+Pillow>=10.0
+texture2ddecoder>=1.0.5
+astc-encoder-py>=0.1.12
+lz4>=4.0.0
+fsspec>=2023.0.0
+
+# Optional: enables UnityPy's own AudioClip.samples (FSB5 decode via bundled FMOD).
+# Not required when using vgmstream-cli, which is the recommended path.
+# fmod_toolkit>=0.4.0
+
+# External binaries (not pip-installable), pass explicit paths to `ga.py`:
+#   --vgmstream <path-to-vgmstream-cli.exe>   # FSB5 -> WAV
+#   ffmpeg                                   # optional, a few legacy audio formats
+#   java (JDK)                               # optional, required by Kaitai Struct compiler
